@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web-Technologies-PBL---1-Year-Semester-II-Assignment--2</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-main: #0a0a0a;
+            --bg-elevated: #151515;
+            --border: #2a2a2a;
+            --text-primary: #e8e8e8;
+            --text-secondary: #888888;
+            --accent-client: #00ff88;
+            --accent-server: #ff0088;
+            --accent-both: #8800ff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'JetBrains Mono', monospace;
+            background: var(--bg-main);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Header */
+        header {
+            border-bottom: 1px solid var(--border);
+            padding: 2rem 0;
+            position: sticky;
+            top: 0;
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 100;
+        }
+
+        h1 {
+            font-size: 2rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+        }
+
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+        }
+
+        /* Legend */
+        .legend {
+            display: flex;
+            gap: 2rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .legend-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        .legend-dot.client { background: var(--accent-client); }
+        .legend-dot.server { background: var(--accent-server); }
+        .legend-dot.both { background: var(--accent-both); }
+
+        /* Sections */
+        section {
+            padding: 4rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .arch-tag {
+            font-size: 0.625rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 2px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .arch-tag.client {
+            background: var(--accent-client);
+            color: var(--bg-main);
+        }
+
+        .arch-tag.server {
+            background: var(--accent-server);
+            color: var(--bg-main);
+        }
+
+        .arch-tag.both {
+            background: var(--accent-both);
+            color: var(--bg-main);
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .content-grid {
+            display: grid;
+            gap: 2rem;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        }
+
+        .card {
+            background: var(--bg-elevated);
+            border: 1px solid var(--border);
+            padding: 1.5rem;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            border-color: var(--text-secondary);
+            transform: translateY(-2px);
+        }
+
+        .card h3 {
+            font-size: 1rem;
+            margin-bottom: 0.75rem;
+            color: var(--accent-client);
+        }
+
+        .card.server-card h3 {
+            color: var(--accent-server);
+        }
+
+        .card.both-card h3 {
+            color: var(--accent-both);
+        }
+
+        .card p {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        .code-block {
+            background: var(--bg-main);
+            border: 1px solid var(--border);
+            padding: 1rem;
+            border-radius: 4px;
+            margin-top: 1rem;
+            overflow-x: auto;
+        }
+
+        .code-block code {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--accent-client);
+        }
+
+        /* Interactive Demo Section */
+        .demo-interface {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .demo-panel {
+            background: var(--bg-elevated);
+            border: 1px solid var(--border);
+            padding: 1.5rem;
+            border-radius: 4px;
+        }
+
+        .demo-panel h4 {
+            font-size: 0.875rem;
+            margin-bottom: 1rem;
+            opacity: 0.6;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        input, button {
+            width: 100%;
+            padding: 0.75rem;
+            background: var(--bg-main);
+            border: 1px solid var(--border);
+            color: var(--text-primary);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.875rem;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+        }
+
+        button {
+            background: var(--accent-both);
+            color: var(--bg-main);
+            cursor: pointer;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            transition: all 0.2s ease;
+        }
+
+        button:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+
+        .response-area {
+            background: var(--bg-main);
+            border: 1px solid var(--border);
+            padding: 1rem;
+            min-height: 150px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+
+        .log-entry {
+            margin-bottom: 0.5rem;
+            padding: 0.5rem;
+            border-left: 2px solid var(--accent-client);
+        }
+
+        .log-entry.server {
+            border-left-color: var(--accent-server);
+        }
+
+        /* Footer */
+        footer {
+            padding: 3rem 0;
+            text-align: center;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+
+        @media (max-width: 768px) {
+            .demo-interface {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Animation */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .card {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        .card:nth-child(1) { animation-delay: 0.1s; opacity: 0; }
+        .card:nth-child(2) { animation-delay: 0.2s; opacity: 0; }
+        .card:nth-child(3) { animation-delay: 0.3s; opacity: 0; }
+        .card:nth-child(4) { animation-delay: 0.4s; opacity: 0; }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Client-Server Architecture</h1>
+            <p class="subtitle">A visual breakdown of web application components</p>
+            
+            <div class="legend">
+                <div class="legend-item">
+                    <span class="legend-dot client"></span>
+                    <span>Client Side</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-dot server"></span>
+                    <span>Server Side</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-dot both"></span>
+                    <span>Client-Server Interaction</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- CLIENT SIDE SECTION -->
+    <section>
+        <div class="container">
+            <div class="section-header">
+                <h2>Client Side Components</h2>
+                <span class="arch-tag client">Client</span>
+            </div>
+            
+            <div class="content-grid">
+                <div class="card">
+                    <h3>HTML Structure</h3>
+                    <p>The Document Object Model (DOM) that defines the webpage structure. Rendered and displayed by the browser on the user's device.</p>
+                    <div class="code-block">
+                        <code>&lt;div class="container"&gt;...&lt;/div&gt;</code>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>CSS Styling</h3>
+                    <p>Visual presentation layer that controls layout, colors, fonts, and animations. Processed entirely in the browser.</p>
+                    <div class="code-block">
+                        <code>background: #0a0a0a;<br>color: #e8e8e8;</code>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>JavaScript Logic</h3>
+                    <p>Client-side scripts that handle user interactions, DOM manipulation, and dynamic content updates without server communication.</p>
+                    <div class="code-block">
+                        <code>document.querySelector('.btn')<br>.addEventListener('click', fn)</code>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>Browser APIs</h3>
+                    <p>Local storage, geolocation, canvas rendering, and other browser-provided features that run on the client device.</p>
+                    <div class="code-block">
+                        <code>localStorage.setItem('key', 'val')</code>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SERVER SIDE SECTION -->
+    <section>
+        <div class="container">
+            <div class="section-header">
+                <h2>Server Side Components</h2>
+                <span class="arch-tag server">Server</span>
+            </div>
+            
+            <div class="content-grid">
+                <div class="card server-card">
+                    <h3>Database Operations</h3>
+                    <p>Data storage, retrieval, and management. SQL/NoSQL databases that persist information across sessions and users.</p>
+                    <div class="code-block">
+                        <code>SELECT * FROM users<br>WHERE id = ?</code>
+                    </div>
+                </div>
+
+                <div class="card server-card">
+                    <h3>Authentication</h3>
+                    <p>User verification, session management, and access control. Security logic that must remain on the server for protection.</p>
+                    <div class="code-block">
+                        <code>bcrypt.compare(password, hash)</code>
+                    </div>
+                </div>
+
+                <div class="card server-card">
+                    <h3>Business Logic</h3>
+                    <p>Core application rules, data processing, and algorithms. Server-side computation that may be resource-intensive or sensitive.</p>
+                    <div class="code-block">
+                        <code>processPayment(order, card)</code>
+                    </div>
+                </div>
+
+                <div class="card server-card">
+                    <h3>API Endpoints</h3>
+                    <p>Server routes that receive requests, process data, and return responses. The interface between client and server systems.</p>
+                    <div class="code-block">
+                        <code>app.post('/api/users', handler)</code>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- INTERACTION SECTION -->
+    <section>
+        <div class="container">
+            <div class="section-header">
+                <h2>Client-Server Interaction</h2>
+                <span class="arch-tag both">Both</span>
+            </div>
+            
+            <div class="content-grid">
+                <div class="card both-card">
+                    <h3>HTTP Requests</h3>
+                    <p>Client initiates communication by sending HTTP/HTTPS requests (GET, POST, PUT, DELETE) to server endpoints.</p>
+                    <div class="code-block">
+                        <code>fetch('/api/data', {<br>  method: 'GET'<br>})</code>
+                    </div>
+                </div>
+
+                <div class="card both-card">
+                    <h3>HTTP Responses</h3>
+                    <p>Server processes requests and returns responses with status codes (200, 404, 500) and data (JSON, HTML, files).</p>
+                    <div class="code-block">
+                        <code>res.json({ status: 'ok',<br>  data: [...] })</code>
+                    </div>
+                </div>
+
+                <div class="card both-card">
+                    <h3>Form Submission</h3>
+                    <p>User input collected on client, validated, then sent to server for processing and storage. Response updates client UI.</p>
+                    <div class="code-block">
+                        <code>&lt;form action="/submit"<br>  method="POST"&gt;</code>
+                    </div>
+                </div>
+
+                <div class="card both-card">
+                    <h3>WebSockets</h3>
+                    <p>Real-time bidirectional communication channel. Both client and server can push data instantly for live updates.</p>
+                    <div class="code-block">
+                        <code>socket.on('message', data)</code>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- INTERACTIVE DEMO SECTION -->
+    <section>
+        <div class="container">
+            <div class="section-header">
+                <h2>Live Demo: Client-Server Flow</h2>
+                <span class="arch-tag both">Interactive</span>
+            </div>
+            
+            <div class="demo-interface">
+                <div class="demo-panel">
+                    <h4>→ Client Side (Your Browser)</h4>
+                    <input type="text" id="userInput" placeholder="Enter your name...">
+                    <button onclick="sendToServer()">Send to Server</button>
+                    <div class="response-area" id="clientLog">
+                        <div class="log-entry">Ready. Enter data and click send to see client-server interaction.</div>
+                    </div>
+                </div>
+
+                <div class="demo-panel">
+                    <h4>← Server Side (Simulated)</h4>
+                    <div class="response-area" id="serverLog">
+                        <div class="log-entry server">Waiting for requests...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ARCHITECTURE SUMMARY -->
+    <section>
+        <div class="container">
+            <div class="section-header">
+                <h2>Architecture Summary</h2>
+            </div>
+            
+            <div class="content-grid">
+                <div class="card">
+                    <h3>Separation of Concerns</h3>
+                    <p>Client handles presentation and user interaction. Server manages data persistence, business logic, and security. This separation enables scalability and maintainability.</p>
+                </div>
+
+                <div class="card server-card">
+                    <h3>Why Server-Side?</h3>
+                    <p>Security-sensitive operations, data consistency, resource-intensive computations, and central coordination require server processing beyond client capabilities.</p>
+                </div>
+
+                <div class="card">
+                    <h3>Why Client-Side?</h3>
+                    <p>Immediate responsiveness, reduced server load, offline capabilities, and rich interactivity make client-side processing essential for user experience.</p>
+                </div>
+
+                <div class="card both-card">
+                    <h3>Communication Protocol</h3>
+                    <p>HTTP/HTTPS serves as the standard protocol. Client initiates requests; server responds. Modern apps use REST, GraphQL, or WebSocket patterns.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>This entire page demonstrates client-server architecture</p>
+            <p style="margin-top: 0.5rem;">HTML/CSS/JS runs on CLIENT • Data processing would occur on SERVER • Communication bridges BOTH</p>
+        </div>
+    </footer>
+
+    <script>
+        // CLIENT-SIDE JAVASCRIPT
+        let requestCount = 0;
+
+        function addLog(container, message, isServer = false) {
+            const log = document.createElement('div');
+            log.className = `log-entry ${isServer ? 'server' : ''}`;
+            log.textContent = message;
+            container.appendChild(log);
+            container.scrollTop = container.scrollHeight;
+        }
+
+        function simulateServerResponse(input) {
+            // This simulates what would happen on the server
+            return new Promise((resolve) => {
+                setTimeout(() => {
+                    const responses = [
+                        `Hello, ${input}! Request processed at ${new Date().toLocaleTimeString()}`,
+                        `Data validated and stored for: ${input}`,
+                        `Welcome back, ${input}! Session created.`,
+                        `${input} has been added to the database.`
+                    ];
+                    resolve(responses[Math.floor(Math.random() * responses.length)]);
+                }, 800);
+            });
+        }
+
+        async function sendToServer() {
+            const input = document.getElementById('userInput');
+            const clientLog = document.getElementById('clientLog');
+            const serverLog = document.getElementById('serverLog');
+            
+            if (!input.value.trim()) {
+                addLog(clientLog, '⚠ Validation failed: Input cannot be empty');
+                return;
+            }
+
+            requestCount++;
+            
+            // CLIENT: Prepare and send request
+            addLog(clientLog, `→ Sending HTTP POST request #${requestCount}...`);
+            addLog(clientLog, `→ Payload: { name: "${input.value}" }`);
+            
+            // SERVER: Receive and process
+            addLog(serverLog, `← Received request #${requestCount}`, true);
+            addLog(serverLog, `← Processing data: "${input.value}"`, true);
+            
+            // Simulate server processing
+            const response = await simulateServerResponse(input.value);
+            
+            // SERVER: Send response
+            addLog(serverLog, `→ Sending response: 200 OK`, true);
+            
+            // CLIENT: Receive and display response
+            addLog(clientLog, `← Response received: ${response}`);
+            
+            input.value = '';
+        }
+
+        // Allow Enter key to submit
+        document.getElementById('userInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') sendToServer();
+        });
+    </script>
+</body>
+</html>
